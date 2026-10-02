@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profesores y Materias</title>
+    <link rel="stylesheet" href="../../style/horario.css">
+</head>
+
+<body class="parte4">
+
+    <header class="ini3">
+
+        <img src="../../public/Img/2036escudob.png" class="logo">
+
+        <nav>
+           <a href="../home/Inicio.html">Inicio</a>
+           <a href="../plantillas/Plantillas.html">Plantillas</a>
+           <a href="../registro/Registro.html">Registro de cambios</a>
+           <a href="../profesores_materias/Profesores_y_materias.html">Profesores y materias</a>
+        <a href="../reportes/reportes_exportacion.html">Reportes y Exportacion</a>
+        </nav>
+
+    </header>
+
+    <main class="main">
+
+        <h1 class="titulo">Profesores y materias</h1>
+
+        <div class="tarjetas">
+
+            <!-- PROFESORES -->
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Listado de profesores</h3>
+                    <button onclick="abrirModalAgregarProfesor()">Agregar</button>
+                </div>
+
+                <div class="card-body" id="listaProfesores">
+                    <!-- Tarjetas de profesores generadas dinámicamente por profesoresMaterias.js -->
+                </div>
+
+            </div>
+
+            <!-- MATERIAS -->
+            <div class="card">
+
+                <div class="card-header">
+                    <h3>Listado de materias</h3>
+                    <button onclick="abrirModalAgregarMateria()">Agregar</button>
+                </div>
+
+                <div class="card-body" id="listaMaterias">
+                    <!-- Tarjetas de materias generadas dinámicamente por profesoresMaterias.js -->
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ============================= -->
+    <!--        MODAL: PROFESOR         -->
+    <!-- ============================= -->
+
+    <div class="modal-overlay" id="modalProfesor">
+
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalProfesor">
+
+            <div class="modal-header">
+                <h2 id="tituloModalProfesor">Agregar profesor</h2>
+                <button type="button" class="modal-cerrar" onclick="cerrarModalProfesor()" aria-label="Cerrar">&times;</button>
+            </div>
+
+            <div class="modal-body">
+
+                <div>
+                    <label for="nombreProfesor">Nombre</label>
+                    <input type="text" id="nombreProfesor" placeholder="Nombre del profesor">
+                </div>
+
+                <div>
+                    <label for="materiaProfesor">Materia</label>
+                    <input type="text" id="materiaProfesor" placeholder="Materia">
+                </div>
+
+                <div>
+                    <label for="jornadaProfesor">Jornada</label>
+                    <select id="jornadaProfesor">
+                        <option value="manana">Mañana</option>
+                        <option value="tarde">Tarde</option>
+                        <option value="ambas">Ambas</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="diasProfesor">Días disponibles</label>
+                    <input type="text" id="diasProfesor" placeholder="Ej: Lunes, martes y viernes">
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="regresar-plantillas" onclick="cerrarModalProfesor()">Cancelar</button>
+                <button type="button" onclick="guardarProfesor()">Guardar</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================= -->
+    <!--        MODAL: MATERIA          -->
+    <!-- ============================= -->
+
+    <div class="modal-overlay" id="modalMateria">
+
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloModalMateria">
+
+            <div class="modal-header">
+                <h2 id="tituloModalMateria">Agregar materia</h2>
+                <button type="button" class="modal-cerrar" onclick="cerrarModalMateria()" aria-label="Cerrar">&times;</button>
+            </div>
+
+            <div class="modal-body">
+
+                <div>
+                    <label for="nombreMateria">Materia</label>
+                    <input type="text" id="nombreMateria" placeholder="Materia">
+                </div>
+
+                <div>
+                    <label for="aulaMateria">Aula</label>
+                    <input type="text" id="aulaMateria" placeholder="Ej: 302">
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="regresar-plantillas" onclick="cerrarModalMateria()">Cancelar</button>
+                <button type="button" onclick="guardarMateria()">Guardar</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="../../script/api.js"></script>
+    <script src="../../script/auth.js"></script>
+    <script src="profesoresMaterias.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../style/horario.css">
+</head>
+<body class="parte4">
+
+    <header class="ini3">
+
+       <img src="../../public/Img/2036escudob.png" class="logo">
+
+       <nav>
+           <a href="../home/Inicio.html">Inicio</a>
+           <a href="../plantillas/Plantillas.html">Plantillas</a>
+           <a href="../registro/Registro.html">Registro de cambios</a>
+           <a href="../profesores_materias/Profesores_y_materias.html">Profesores y materias</a>
+             <a href="../reportes/reportes_exportacion.html">Reportes y Exportacion</a>
+        </nav>
+
+    </header>
+
+    <div class="cajas">
+
+        <div class="caja1">
+                <h1>
+                    Plantilla Semanal
+                </h1>
+
+                <h3>
+                    Horarios de 6 a 11
+                </h3>
+
+        </div>
+
+        <div class="contenedor-plantillas">
+
+            <div class="panel-horarios">
+
+                <div class="tarjeta-horario" onclick="window.location.href='horarioGeneral.html'" style="cursor:pointer;">
+                  <h3 class="titulo-horario">Horario General</h3>
+                  <p class="descripcion-horario">Vista completa de todos los cursos.</p>
+                </div>
+
+                <div class="tarjeta-horario" onclick="window.location.href='horarioDocente.html'" style="cursor:pointer;">
+                    <h3 class="titulo-horario">Horario Docente</h3>
+                    <p class="descripcion-horario">Horarios organizados por profesor.</p>
+                </div>
+
+                <div class="tarjeta-horario" onclick="window.location.href='LimiteHoras.html'" style="cursor:pointer;">
+                    <h3 class="titulo-horario">Límite de horas</h3>
+                    <p class="descripcion-horario">Consulta las horas semanales asignadas a cada profesor.</p>
+                </div>
+
+               <div class="tarjeta-horario" onclick="window.location.href='HorarioEspecial.html'" style="cursor:pointer;">
+                  <h3 class="titulo-horario">Horario Especial</h3>
+                  <p class="descripcion-horario">Programaciones temporales y eventos.</p>
+               </div>
+
+                    <div class="tarjeta-horario" onclick="window.location.href='../registro/Registro.html'" style="cursor:pointer;">
+                       <h3 class="titulo-horario">Registro de Cambios</h3>
+                       <p class="descripcion-horario">Historial de modificaciones.</p>
+                    </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="../../script/api.js"></script>
+    <script src="../../script/auth.js"></script>
+
+</body>
+</html>

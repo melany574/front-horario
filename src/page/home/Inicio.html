@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../style/horario.css">
+    <title>Inicio Coordinador</title>
+
+  </head>
+
+<body class="parte3">
+
+<header class="ini3">
+
+    <img src="../../public/Img/2036escudob.png" class="logo">
+
+    <nav>
+        <a href="../home/Inicio.html">Inicio</a>
+        <a href="../plantillas/Plantillas.html">Plantillas</a>
+        <a href="../registro/Registro.html">Registro de cambios</a>
+        <a href="../profesores_materias/Profesores_y_materias.html">Profesores y materias</a>
+        <a href="../reportes/reportes_exportacion.html">Reportes y Exportacion</a>
+    </nav>
+
+
+</header>
+
+<div class="contenido">
+
+   <section class="inicio">
+     <div class="texto">
+        <h1>INICIO</h1>
+     </div>
+
+     <img src="../../public/Img/imagen 1.png" alt="Colegio">
+    </section>
+
+    <div class="bienvenida">
+
+      <p><span id="fechaActual"></span></p>
+
+      <script>
+        const fecha = new Date();
+        
+        const opciones = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        
+        document.getElementById("fechaActual").textContent =
+            fecha.toLocaleDateString('es-ES', opciones);
+        </script>
+ 
+        <h2>¡Bienvenidos!</h2>
+
+    </div>
+
+    <div class="tarjetas">
+
+        <a href="../home/Eventos.html" class="tarjeta">
+
+            <h3>Eventos y Actividades</h3>
+
+            <div id="eventos"></div>
+
+        </a>
+
+        <a href="../home/Avisos.html" class="tarjeta">
+
+            <h3>Avisos importantes</h3>
+
+            <div id="Avisos"></div>
+
+        </a>
+
+        <a href="../home/Estado.html" class="tarjeta">
+
+            <h3>Estado del colegio</h3>
+
+            <div id="Estado"></div>
+
+        </a>
+
+    </div>
+
+
+</div>
+
+<script src="../../script/api.js"></script>
+<script src="../../script/auth.js"></script>
+<script src="inicio.js"></script>
+
+</body>
+</html>

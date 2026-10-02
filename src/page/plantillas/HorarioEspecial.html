@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Horario General</title>
+
+    <link rel="stylesheet" href="../../style/horario.css">
+</head>
+
+<body class="parte4">
+
+<header class="ini3">
+
+    <img src="../../public/Img/2036escudob.png" class="logo">
+
+    <nav>
+        <a href="../home/Inicio.html">Inicio</a>
+        <a href="../plantillas/Plantillas.html">Plantillas</a>
+        <a href="../registro/Registro.html">Registro de cambios</a>
+        <a href="../profesores_materias/Profesores_y_materias.html">Profesores y materias</a>
+        <a href="../reportes/reportes_exportacion.html">Reportes y Exportacion</a>
+    </nav>
+
+</header>
+
+
+<div class="contenedor-horario">
+
+    <h1 class="titulo-principal">
+        Horario Especial
+        
+    </h1>
+
+
+    <!-- CONTROLES DE FECHA -->
+
+    <div class="controles">
+
+        <button onclick="cambiarDia(-1)">
+            ← Día anterior
+        </button>
+
+        <input
+            type="date"
+            id="fecha"
+            onchange="cargarHorario()"
+        >
+
+        <button onclick="cambiarDia(1)">
+            Día siguiente →
+        </button>
+
+    </div>
+
+
+    <!-- FECHA AUTOMÁTICA -->
+
+    <h2
+        class="fecha-titulo"
+        id="fechaTitulo">
+    </h2>
+
+
+    <!-- ========================= -->
+    <!-- JORNADA DE LA MAÑANA -->
+    <!-- ========================= -->
+
+    <div class="jornada">
+
+        <h2>
+            La Jornada de la mañana
+        </h2>
+
+        <table class="tabla-horario">
+
+            <thead>
+                <tr id="cabeceraManana">
+                    <th>Grado</th>
+                    <!-- Columnas de hora generadas dinámicamente por horarioEspecial.js -->
+                </tr>
+            </thead>
+
+            <tbody id="tablaManana"></tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- JORNADA DE LA TARDE -->
+    <!-- ========================= -->
+
+    <div class="jornada">
+
+        <h2>
+            La Jornada de la tarde
+        </h2>
+
+        <table class="tabla-horario">
+
+            <thead>
+                <tr id="cabeceraTarde">
+                    <th>Grado</th>
+                    <!-- Columnas de hora generadas dinámicamente por horarioEspecial.js -->
+                </tr>
+            </thead>
+
+            <tbody id="tablaTarde"></tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- BOTONES -->
+
+    <div class="botones">
+
+        <button onclick="limpiarDia()">
+            Limpiar día
+        </button>
+
+        <a href="../plantillas/Plantillas.html">
+            ← Volver a Plantillas
+        </a>
+
+    </div>
+
+
+    <p
+        class="mensaje"
+        id="mensaje">
+    </p>
+
+</div>
+
+
+<script src="../../script/api.js"></script>
+<script src="../../script/auth.js"></script>
+<script src="horarioEspecial.js"></script>
+
+</body>
+</html>

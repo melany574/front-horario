@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../style/horario.css">
+</head>
+
+
+<body class="parte4" bgcolor="#f4f6f8">
+<header class="ini3">
+
+       <img src="../../public/Img/2036escudob.png" class="logo">
+
+       <nav>
+           <a href="../home/Inicio.html">Inicio</a>
+           <a href="../plantillas/Plantillas.html">Plantillas</a>
+           <a href="../registro/Registro.html">Registro de cambios</a>
+           <a href="../profesores_materias/Profesores_y_materias.html">Profesores y materias</a>
+             <a href="../reportes/reportes_exportacion.html">Reportes y Exportacion</a>
+        </nav>
+
+    </header>
+
+    <br>
+
+    <table width="95%" align="center" border="1" cellpadding="10" cellspacing="0" bgcolor="white">
+        <tr>
+            <td align="center">
+
+                <font size="4">
+                    <b>Seleccionar reporte</b>
+                </font>
+
+                <br><br>
+
+                <select id="tipoReporte" onchange="mostrarReporte(this.value)">
+                    <option value="completo">Horario por día</option>
+                    <option value="especial">Horario Especial</option>
+                    <option value="profesor">Por profesor (todos)</option>
+                    <option value="materia">Por materia</option>
+                    <option value="avisos">Avisos</option>
+                    <option value="eventos">Eventos</option>
+                    <option value="estado">Estado</option>
+                </select>
+
+                &nbsp;
+
+                <button onclick="actualizarTodo()" >Actualizar</button>
+                <button onclick="imprimirReporte()"> Imprimir</button>
+                <button onclick="descargarReporte()"> Descargar</button>
+
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    <!-- ================================================= -->
+    <!-- HORARIO POR DÍA -->
+    <!-- ================================================= -->
+
+    <div id="reporteCompleto">
+
+        <table width="95%" align="center" border="1" cellpadding="8" cellspacing="0" bgcolor="white">
+
+            <tr bgcolor="#1f4e78">
+                <td colspan="10" align="center">
+                    <font color="white" size="5">
+                        <b>HORARIO GENERAL</b>
+                    </font>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="10" align="center">
+                  
+                    <br><br>
+
+                    <select id="diaReporte" onchange="generarHorarioDia()">
+                        <option value="lunes">Lunes</option>
+                        <option value="martes">Martes</option>
+                        <option value="miercoles">Miércoles</option>
+                        <option value="jueves">Jueves</option>
+                        <option value="viernes">Viernes</option>
+                    </select>
+
+                    <br><br>
+
+                    <font size="4">
+                        <b id="fechaReporte">Sin fecha registrada</b>
+                    </font>
+
+                </td>
+            </tr>
+
+        </table>
+
+        <br>
+
+        <table
+            id="tablaManana"
+            width="95%"
+            align="center"
+            border="1"
+            cellpadding="5"
+            cellspacing="0"
+            bgcolor="white">
+        </table>
+
+        <br>
+
+        <table
+            id="tablaTarde"
+            width="95%"
+            align="center"
+            border="1"
+            cellpadding="5"
+            cellspacing="0"
+            bgcolor="white">
+        </table>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- PROFESORES -->
+    <!-- ================================================= -->
+
+    <div id="reporteProfesor" hidden>
+
+        <table width="95%" align="center" border="1" cellpadding="8" cellspacing="0" bgcolor="white">
+
+            <tr bgcolor="#1f4e78">
+                <td align="center">
+                    <font color="white" size="5">
+                        <b>HORARIO POR PROFESOR</b>
+                    </font>
+                </td>
+            </tr>
+
+        </table>
+
+        <br>
+
+        <div id="contenidoProfesores"></div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- MATERIAS -->
+    <!-- ================================================= -->
+
+    <div id="reporteMateria" hidden>
+
+        <table width="95%" align="center" border="1" cellpadding="8" cellspacing="0" bgcolor="white">
+
+            <tr bgcolor="#1f4e78">
+                <td align="center">
+                    <font color="white" size="5">
+                        <b>HORARIO POR MATERIA</b>
+                    </font>
+                </td>
+            </tr>
+
+        </table>
+
+        <br>
+
+        <div id="contenidoMaterias"></div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- AVISOS -->
+    <!-- ================================================= -->
+
+    <div id="reporteAvisos" hidden>
+
+        <table width="95%" align="center" border="1" cellpadding="8" cellspacing="0" bgcolor="white">
+
+            <tr bgcolor="#1f4e78">
+                <td align="center">
+                    <font color="white" size="5">
+                        <b>AVISOS</b>
+                    </font>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="contenidoAvisos"></div>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- EVENTOS -->
+    <!-- ================================================= -->
+
+    <div id="reporteEventos" hidden>
+
+        <table width="95%" align="center" border="1" cellpadding="8" cellspacing="0" bgcolor="white">
+
+            <tr bgcolor="#1f4e78">
+                <td align="center">
+                    <font color="white" size="5">
+                        <b>EVENTOS Y ACTIVIDADES</b>
+                    </font>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="contenidoEventos"></div>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- ESTADO -->
+    <!-- ================================================= -->
+
+    <div id="reporteEstado" hidden>
+
+        <table width="95%" align="center" border="1" cellpadding="8" cellspacing="0" bgcolor="white">
+
+            <tr bgcolor="#1f4e78">
+                <td align="center">
+                    <font color="white" size="5">
+                        <b>ESTADO</b>
+                    </font>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div id="contenidoEstado"></div>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+<script src="../../script/api.js"></script>
+<script src="../../script/auth.js"></script>
+<script src="reportes.js"></script>
+
+</body>
+</html>

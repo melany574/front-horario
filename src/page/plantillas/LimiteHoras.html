@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Límite de horas</title>
+    <link rel="stylesheet" href="../../style/horario.css">
+</head>
+<body class="parte4">
+    <header class="ini3">
+        <img src="../../public/Img/2036escudob.png" class="logo" alt="Escudo del colegio">
+        <nav>
+            <a href="../home/Inicio.html">Inicio</a>
+            <a href="../plantillas/Plantillas.html">Plantillas</a>
+            <a href="../registro/Registro.html">Registro de cambios</a>
+            <a href="../profesores_materias/Profesores_y_materias.html">Profesores y materias</a>
+            <a href="../reportes/reportes_exportacion.html">Reportes y Exportación</a>
+        </nav>
+    </header>
+
+    <main class="contenedor-horario">
+        <h1 class="titulo-principal">Límite de horas</h1>
+        <section class="panel">
+            <h2 class="titulo-panel" id="rangoSemana">Semana actual</h2>
+            <p>Selecciona un profesor para consultar automáticamente las clases que tiene asignadas en Horario Docente.</p>
+            <div class="fila">
+                <div>
+                    <label for="fechaConsulta">Fecha de referencia</label>
+                    <input type="date" id="fechaConsulta">
+                </div>
+                <div>
+                    <label for="profesorLimite">Profesor</label>
+                    <select id="profesorLimite">
+                        <option value="">Seleccione un profesor</option>
+                    </select>
+                </div>
+            </div>
+            <section aria-live="polite">
+                <h2 class="fecha-titulo" id="profesorSeleccionadoTexto">Selecciona un profesor</h2>
+                <h2 id="totalHoras">— / 22 horas</h2>
+                <p id="estadoHoras">Sin seleccionar</p>
+                <progress id="progresoHoras" max="22" value="0"></progress>
+                <p id="mensajeHoras">Las horas aparecerán al seleccionar un profesor.</p>
+                <p class="mensaje" id="mensajeError" role="status"></p>
+            </section>
+        </section>
+        <section class="panel">
+            <h2 class="titulo-panel">Horas por día</h2>
+            <div class="contenedor">
+                <table class="tabla-horario">
+                    <thead><tr><th>Día</th><th>Clases asignadas</th></tr></thead>
+                    <tbody id="horasPorDia"><tr><td colspan="2">Selecciona un profesor.</td></tr></tbody>
+                </table>
+            </div>
+            <p>Este resumen consulta el horario semanal guardado. El contador representa las clases asignadas en una semana típica; no modifica ni reinicia el Horario Docente.</p>
+        </section>
+        <a href="Plantillas.html" class="regresar-plantillas">Regresar a Plantillas</a>
+    </main>
+    <script src="../../script/api.js"></script>
+    <script src="../../script/auth.js"></script>
+    <script src="LimiteHoras.js"></script>
+</body>
+</html>

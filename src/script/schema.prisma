@@ -1,0 +1,254 @@
+// ==========================================================
+// MontessoriFlow - schema.prisma
+// Modelo de datos generado a partir del análisis del frontend
+// (page/home, page/login, page/plantillas, page/registro,
+//  page/profesores_materias, page/reportes)
+// ==========================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // Cambia a "mysql" si tu proyecto usa MySQL/MariaDB.
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================================
+// ENUMS
+// ==========================================================
+
+enum Rol {
+  coordinador
+  profesor
+  admin
+}
+
+enum Jornada {
+  manana
+  tarde
+  ambas
+}
+
+enum DiaSemana {
+  lunes
+  martes
+  miercoles
+  jueves
+  viernes
+}
+
+// ==========================================================
+// USUARIOS / LOGIN → Inicio_sesion.html
+// ==========================================================
+
+model Usuario {
+  id              Int      @id @default(autoincrement())
+  nombreUsuario   String   @unique @map("nombre_usuario") @db.VarChar(50)
+  contrasenaHash  String   @map("contrasena_hash") @db.VarChar(255)
+  rol             Rol      @default(coordinador)
+  creadoEn        DateTime @default(now()) @map("creado_en")
+
+  profesor         Profesor?
+  registrosCambio  RegistroCambio[]
+  avisos           Aviso[]
+  eventos          Evento[]
+  estadosColegio   EstadoColegio[]
+
+  @@map("usuarios")
+}
+
+// ==========================================================
+// PROFESORES Y MATERIAS → Profesores_y_materias.html
+// ==========================================================
+
+model Profesor {
+  id         Int     @id @default(autoincrement())
+  nombre     String  @db.VarChar(100)
+  jornada    Jornada
+  usuarioId  Int?    @unique @map("usuario_id")
+  usuario    Usuario? @relation(fields: [usuarioId], references: [id])
+
+  diasDisponibles  ProfesorDiaDisponible[]
+  materias         ProfesorMateria[]
+  horarioClases    HorarioClase[]
+  horarioEspecial  HorarioEspecial[]
+  registrosCambio  RegistroCambio[]
+
+  @@map("profesores")
+}
+
+model ProfesorDiaDisponible {
+  profesorId Int       @map("profesor_id")
+  diaSemana  DiaSemana @map("dia_semana")
+
+  profesor Profesor @relation(fields: [profesorId], references: [id], onDelete: Cascade)
+
+  @@id([profesorId, diaSemana])
+  @@map("profesor_dia_disponible")
+}
+
+model Materia {
+  id     Int     @id @default(autoincrement())
+  nombre String  @db.VarChar(100)
+  aula   String? @db.VarChar(50)
+
+  profesores       ProfesorMateria[]
+  horarioClases    HorarioClase[]
+  horarioEspecial  HorarioEspecial[]
+  registrosCambio  RegistroCambio[]
+
+  @@map("materias")
+}
+
+model ProfesorMateria {
+  profesorId Int @map("profesor_id")
+  materiaId  Int @map("materia_id")
+
+  profesor Profesor @relation(fields: [profesorId], references: [id], onDelete: Cascade)
+  materia  Materia  @relation(fields: [materiaId], references: [id], onDelete: Cascade)
+
+  @@id([profesorId, materiaId])
+  @@map("profesor_materia")
+}
+
+// ==========================================================
+// GRUPOS Y BLOQUES DE HORA
+// (usados por horarioGeneral.html, horarioDocente.html,
+//  HorarioEspecial.html y reportes_exportacion.html)
+// ==========================================================
+
+model Grupo {
+  id      Int     @id @default(autoincrement())
+  nombre  String  @db.VarChar(10) // "9°1", "6°2", etc.
+  jornada Jornada
+
+  horarioClases   HorarioClase[]
+  horarioEspecial HorarioEspecial[]
+
+  @@map("grupos")
+}
+
+model BloqueHorario {
+  id          Int     @id @default(autoincrement())
+  jornada     Jornada
+  horaInicio  DateTime @map("hora_inicio") @db.Time()
+  horaFin     DateTime @map("hora_fin") @db.Time()
+  orden       Int
+  esDescanso  Boolean @default(false) @map("es_descanso")
+
+  horarioClases   HorarioClase[]
+  horarioEspecial HorarioEspecial[]
+
+  @@map("bloques_horario")
+}
+
+// ==========================================================
+// HORARIO RECURRENTE SEMANAL → horarioDocente.html
+// (fuente que lee horarioGeneral.html y reportes_exportacion.html)
+// ==========================================================
+
+model HorarioClase {
+  id               Int       @id @default(autoincrement())
+  profesorId       Int       @map("profesor_id")
+  materiaId        Int       @map("materia_id")
+  grupoId          Int       @map("grupo_id")
+  bloqueHorarioId  Int       @map("bloque_horario_id")
+  diaSemana        DiaSemana @map("dia_semana")
+  actualizadoEn    DateTime  @default(now()) @updatedAt @map("actualizado_en")
+
+  profesor      Profesor      @relation(fields: [profesorId], references: [id])
+  materia       Materia       @relation(fields: [materiaId], references: [id])
+  grupo         Grupo         @relation(fields: [grupoId], references: [id])
+  bloqueHorario BloqueHorario @relation(fields: [bloqueHorarioId], references: [id])
+
+  // Un profesor no puede estar en dos sitios a la misma hora
+  @@unique([profesorId, diaSemana, bloqueHorarioId])
+  // Un grupo no puede tener dos profesores a la misma hora
+  @@unique([grupoId, diaSemana, bloqueHorarioId])
+  @@map("horario_clases")
+}
+
+// ==========================================================
+// HORARIO ESPECIAL (por fecha puntual) → HorarioEspecial.html
+// ==========================================================
+
+model HorarioEspecial {
+  id               Int      @id @default(autoincrement())
+  fecha            DateTime @db.Date
+  profesorId       Int?     @map("profesor_id")
+  materiaId        Int?     @map("materia_id")
+  grupoId          Int      @map("grupo_id")
+  bloqueHorarioId  Int      @map("bloque_horario_id")
+  // Texto libre de la celda ("Izada de bandera", "Salida pedagógica"...).
+  // No todo lo que se anota acá es una clase con profesor/materia, por
+  // eso ese par queda opcional y este campo cubre el resto de casos.
+  descripcion      String?  @db.VarChar(255)
+
+  profesor      Profesor?     @relation(fields: [profesorId], references: [id])
+  materia       Materia?      @relation(fields: [materiaId], references: [id])
+  grupo         Grupo         @relation(fields: [grupoId], references: [id])
+  bloqueHorario BloqueHorario @relation(fields: [bloqueHorarioId], references: [id])
+
+  @@unique([fecha, grupoId, bloqueHorarioId])
+  @@map("horario_especial")
+}
+
+// ==========================================================
+// BITÁCORA DE CAMBIOS → Registro.html / agregar_registro.html / cambio.html
+// ==========================================================
+
+model RegistroCambio {
+  id          Int      @id @default(autoincrement())
+  fecha       DateTime @db.Date
+  materiaId   Int?     @map("materia_id")
+  profesorId  Int?     @map("profesor_id")
+  motivo      String   @db.Text
+  creadoPor   Int?     @map("creado_por")
+  creadoEn    DateTime @default(now()) @map("creado_en")
+
+  materia  Materia? @relation(fields: [materiaId], references: [id])
+  profesor Profesor? @relation(fields: [profesorId], references: [id])
+  usuario  Usuario?  @relation(fields: [creadoPor], references: [id])
+
+  @@map("registro_cambios")
+}
+
+// ==========================================================
+// CONTENIDOS DE INICIO → Avisos.html / Eventos.html / Estado.html
+// (historial: la pantalla de Inicio siempre pide el más reciente)
+// ==========================================================
+
+model Aviso {
+  id        Int      @id @default(autoincrement())
+  contenido String   @db.Text
+  creadoPor Int?     @map("creado_por")
+  creadoEn  DateTime @default(now()) @map("creado_en")
+
+  usuario Usuario? @relation(fields: [creadoPor], references: [id])
+
+  @@map("avisos")
+}
+
+model Evento {
+  id        Int      @id @default(autoincrement())
+  contenido String   @db.Text
+  creadoPor Int?     @map("creado_por")
+  creadoEn  DateTime @default(now()) @map("creado_en")
+
+  usuario Usuario? @relation(fields: [creadoPor], references: [id])
+
+  @@map("eventos")
+}
+
+model EstadoColegio {
+  id        Int      @id @default(autoincrement())
+  contenido String   @db.Text
+  creadoPor Int?     @map("creado_por")
+  creadoEn  DateTime @default(now()) @map("creado_en")
+
+  usuario Usuario? @relation(fields: [creadoPor], references: [id])
+
+  @@map("estados_colegio")
+}

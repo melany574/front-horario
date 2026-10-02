@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="../../style/horario.css">
+</head>
+
+<body>
+
+<header class="ini3">
+
+    <img src="../../public/Img/2036escudob.png" class="logo">
+
+    <nav>
+           <a href="../home/Inicio.html">Inicio</a>
+           <a href="../plantillas/Plantillas.html">Plantillas</a>
+           <a href="../registro/Registro.html">Registro de cambios</a>
+           <a href="../profesores_materias/Profesores_y_materias.html">Profesores y materias</a>
+           <a href="../reportes/reportes_exportacion.html">Reportes y Exportacion</a>
+        </nav>
+
+</header>
+
+<div class="encabezado-registro">
+
+    <h1>Registro de cambios</h1>
+
+    <button onclick="abrirModalAgregar()">+ Nuevo registro</button>
+
+</div>
+
+<div class="contenedor">
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>FECHA</th>
+                <th>MATERIA</th>
+                <th>PROFESOR</th>
+                <th>MOTIVO DEL CAMBIO</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody id="tablaCambios">
+            <!-- Filas generadas dinámicamente por registro.js -->
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- ============================= -->
+<!--    MODAL: AGREGAR / EDITAR     -->
+<!-- ============================= -->
+
+<div class="modal-overlay" id="modalOverlay">
+
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+
+        <div class="modal-header">
+            <h2 id="modalTitulo">Agregar registro</h2>
+            <button type="button" class="modal-cerrar" onclick="cerrarModal()" aria-label="Cerrar">&times;</button>
+        </div>
+
+        <div class="modal-body">
+
+            <div>
+                <label for="fecha">Fecha</label>
+                <input type="date" id="fecha" min="2026-01-01" max="2026-12-31">
+            </div>
+
+            <div>
+                <label for="materia">Materia</label>
+                <select id="materia">
+                    <option value="">Seleccione una materia</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="profesor">Profesor</label>
+                <select id="profesor">
+                    <option value="">Seleccione un profesor</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="motivo">Motivo del cambio</label>
+                <input type="text" id="motivo" placeholder="Motivo del cambio">
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="regresar-plantillas" onclick="cerrarModal()">Cancelar</button>
+            <button type="button" onclick="guardarRegistro()">Guardar</button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="../../script/api.js"></script>
+<script src="../../script/auth.js"></script>
+<script src="registro.js"></script>
+</body>
+</html>

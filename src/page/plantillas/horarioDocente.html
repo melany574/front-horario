@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horario Docente</title>
+    <link rel="stylesheet" href="../../style/horario.css">
+</head>
+
+<body class="parte4">
+
+<header class="ini3">
+
+    <img src="../../public/Img/2036escudob.png" class="logo">
+
+    <nav>
+        <a href="../home/Inicio.html">Inicio</a>
+        <a href="../plantillas/Plantillas.html">Plantillas</a>
+        <a href="../registro/Registro.html">Registro de cambios</a>
+        <a href="../reportes/reportes_exportacion.html">Reportes y Exportacion</a>
+    </nav>
+
+</header>
+
+<main class="contenedor-horario">
+
+    <h1>Horario Docente</h1>
+
+    <div class="seleccion-fecha">
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha">
+    </div>
+
+    <div class="seleccion-dia">
+        <label for="dia">Día:</label>
+
+        <select id="dia">
+            <option value="lunes">Lunes</option>
+            <option value="martes">Martes</option>
+            <option value="miercoles">Miércoles</option>
+            <option value="jueves">Jueves</option>
+            <option value="viernes">Viernes</option>
+        </select>
+    </div>
+
+    <div class="seleccion-profesores">
+
+        <div class="lista-jornada">
+            <h3>Profesores - Mañana</h3>
+
+            <select id="profesorManana" onchange="seleccionarProfesor('manana')">
+                <option value="">Seleccione un profesor</option>
+                <!-- Opciones generadas dinámicamente por horarioDocente.js -->
+            </select>
+        </div>
+
+        <div class="lista-jornada">
+            <h3>Profesores - Tarde</h3>
+
+            <select id="profesorTarde" onchange="seleccionarProfesor('tarde')">
+                <option value="">Seleccione un profesor</option>
+                <!-- Opciones generadas dinámicamente por horarioDocente.js -->
+            </select>
+        </div>
+
+    </div>
+
+    
+
+    <table class="tabla-horario">
+
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Jornada</th>
+                <th>grupo</th>
+                <th>Materia </th>
+            </tr>
+        </thead>
+
+        <tbody id="tablaBody"></tbody>
+
+    </table>
+
+    <div class="botones-horario">
+
+        <button id="guardarHorario" onclick="guardar()">
+            Guardar Horario
+        </button>
+
+        <button id="borrarHorario" onclick="borrarHorario()">
+            Borrar horario del profesor
+        </button>
+
+        <button id="borrarTodos" onclick="borrarTodosLosHorarios()">
+            Borrar todos los horarios
+        </button>
+
+    </div>
+
+    <a href="../plantillas/Plantillas.html" class="regresar-plantillas">Regresar</a>
+
+</main>
+
+<script src="../../script/api.js"></script>
+<script src="../../script/auth.js"></script>
+<script src="horarioDocente.js"></script>
+
+</body>
+</html>
